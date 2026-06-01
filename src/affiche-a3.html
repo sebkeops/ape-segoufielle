@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Affiche A3 — APE École de Ségoufielle</title>
+
+<!-- Polices Fredoka (titres), Poppins (sous-titres), Inter (corps).
+     Inlinées en base64 dans fonts.css (cf. scripts/fetch-fonts.js) pour un
+     embarquement PDF garanti et un rendu déterministe hors-ligne. -->
+<link href="fonts.css" rel="stylesheet">
+
+<style>
+  /* ===== Format A3 portrait + fond perdu (bleed) 3 mm =====
+     297 × 420 mm  →  303 × 426 mm avec bleed.
+     Marge de sécurité : 10 mm (zone sûre = 13 mm depuis le bord physique). */
+  @page {
+    size: 303mm 426mm;
+    margin: 0;
+  }
+
+  :root {
+    --bleed: 3mm;
+    --safe: 10mm;
+    --pad: 13mm;            /* bleed + marge de sécurité */
+
+    /* Palette chaleureuse école / famille — colorée mais soignée */
+    --cream:   #FFF7EE;
+    --coral:   #F4623A;     /* corail chaud, énergie positive */
+    --coral-d: #E0492A;
+    --teal:    #1F9E96;     /* turquoise fédérateur */
+    --teal-d:  #157C75;
+    --yellow:  #FFC24B;     /* jaune lumineux */
+    --navy:    #243B55;     /* bleu profond, texte */
+    --navy-soft:#3C5066;
+    --white:   #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--navy);
+  }
+
+  .page {
+    position: relative;
+    width: 303mm;
+    height: 426mm;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  /* ===== Décor de fond (s'étend jusqu'au bord = bleed) ===== */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  /* Bandeau turquoise pleine largeur (couvre bord à bord = bleed),
+     vague douce en bas. Tout l'en-tête repose sur du turquoise plein. */
+  .blob-top {
+    top: 0; left: 0;
+    width: 303mm; height: 150mm;
+    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-d) 100%);
+    border-radius: 0 0 50% 50% / 0 0 14% 14%;
+  }
+  .blob-yellow {
+    top: 158mm; right: -55mm;
+    width: 110mm; height: 110mm;
+    background: var(--yellow);
+    opacity: 0.5;
+  }
+  .blob-coral {
+    bottom: -55mm; left: -40mm;
+    width: 130mm; height: 130mm;
+    background: var(--coral);
+    opacity: 0.12;
+  }
+  .arc-bottom {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 303mm; height: 80mm;
+    background: linear-gradient(120deg, var(--coral) 0%, var(--coral-d) 100%);
+    border-radius: 90% 90% 0 0 / 60% 60% 0 0;
+    z-index: 0;
+  }
+
+  /* ===== Contenu, contraint à la zone sûre ===== */
+  .content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- En-tête sur le bandeau turquoise --- */
+  .header {
+    text-align: center;
+    color: var(--white);
+    padding-top: 6mm;
+  }
+  .eyebrow {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 6mm;
+  }
+  .title {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 70pt;
+    line-height: 1.02;
+    color: var(--white);
+    text-shadow: 0 2mm 4mm rgba(0,0,0,0.12);
+  }
+  .title .accent { color: var(--yellow); }
+
+  .hook {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 27pt;
+    color: var(--white);
+    margin-top: 8mm;
+  }
+
+  /* --- Carte centrale (paragraphe) --- */
+  .intro-card {
+    margin-top: 16mm;
+    background: var(--white);
+    border-radius: 10mm;
+    padding: 13mm 14mm;
+    box-shadow: 0 4mm 14mm rgba(36,59,85,0.10);
+  }
+  .intro-card p {
+    font-size: 19pt;
+    line-height: 1.5;
+    color: var(--navy-soft);
+    text-align: center;
+  }
+
+  /* --- Bloc QR --- */
+  .qr-block {
+    margin-top: 12mm;
+    display: flex;
+    align-items: center;
+    gap: 11mm;
+    background: var(--white);
+    border: 1.2mm solid var(--teal);
+    border-radius: 10mm;
+    padding: 11mm 12mm;
+    box-shadow: 0 4mm 14mm rgba(36,59,85,0.10);
+  }
+  .qr-img {
+    width: 55mm;
+    height: 55mm;
+    flex: 0 0 55mm;
+    border-radius: 4mm;
+  }
+  .qr-text { flex: 1; }
+  .qr-text .scan {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 24pt;
+    color: var(--teal-d);
+    line-height: 1.15;
+  }
+  .qr-text .scan small {
+    display: block;
+    font-weight: 500;
+    font-size: 15pt;
+    color: var(--navy-soft);
+    margin-top: 2mm;
+  }
+  /* Encadré "à remplacer" — clairement identifié tant que l'URL est inconnue */
+  .placeholder-note {
+    margin-top: 5mm;
+    background: #FFF3D6;
+    border: 0.6mm dashed var(--coral-d);
+    border-radius: 3mm;
+    padding: 4mm 5mm;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5pt;
+    font-weight: 500;
+    color: var(--coral-d);
+    line-height: 1.3;
+  }
+  .placeholder-note b { font-weight: 700; }
+
+  /* --- Encadré dates --- */
+  .dates {
+    margin-top: 11mm;
+    display: flex;
+    gap: 8mm;
+  }
+  .date-box {
+    flex: 1;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 8mm;
+    padding: 9mm 8mm;
+    text-align: center;
+  }
+  .date-box .label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14pt;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+  .date-box .value {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 23pt;
+    margin-top: 3mm;
+  }
+  .date-box .value .ph {
+    display: inline-block;
+    background: rgba(255,255,255,0.16);
+    border: 0.5mm dashed var(--yellow);
+    border-radius: 2mm;
+    padding: 0 3mm;
+    color: var(--yellow);
+  }
+
+  /* --- Bas de page : message clé + pied --- */
+  .footer-zone {
+    margin-top: auto;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    z-index: 2;
+    padding-bottom: 4mm;
+  }
+  .key-message {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 30pt;
+    color: var(--white);
+  }
+  .key-message .heart { color: var(--yellow); }
+  .footer {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14pt;
+    color: rgba(255,255,255,0.92);
+    margin-top: 5mm;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <!-- Décor -->
+    <div class="blob blob-top"></div>
+    <div class="blob blob-yellow"></div>
+    <div class="blob blob-coral"></div>
+    <div class="arc-bottom"></div>
+
+    <div class="content">
+      <header class="header">
+        <div class="eyebrow">APE · École de Ségoufielle</div>
+        <h1 class="title">Réinventons ensemble<br>l'APE <span class="accent">2026-2027</span></h1>
+        <p class="hook">Et si vous décidiez de l'année prochaine ?</p>
+      </header>
+
+      <div class="intro-card">
+        <p>L'APE de l'école prépare la nouvelle année et souhaite la construire
+        avec vous. Vos idées, vos envies, vos disponibilités : tout compte.
+        Donnez votre avis en 5 minutes et imaginons ensemble les projets de
+        nos enfants.</p>
+      </div>
+
+      <div class="qr-block">
+        <img class="qr-img" src="qr-code.png" alt="QR code questionnaire">
+        <div class="qr-text">
+          <div class="scan">Scannez pour répondre<br>au questionnaire
+            <small>5 minutes suffisent</small>
+          </div>
+          <div class="placeholder-note">
+            ⚠️ <b>QR code provisoire</b> — à régénérer avec l'URL définitive du
+            questionnaire&nbsp;: <b>[URL_FORMULAIRE]</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="dates">
+        <div class="date-box">
+          <div class="label">Réponses avant le</div>
+          <div class="value"><span class="ph">[DATE_LIMITE]</span></div>
+        </div>
+        <div class="date-box">
+          <div class="label">Réunion parents le</div>
+          <div class="value"><span class="ph">[DATE_REUNION]</span></div>
+        </div>
+      </div>
+
+      <div class="footer-zone">
+        <div class="key-message">Chacun peut contribuer à son échelle <span class="heart">♥</span></div>
+        <div class="footer">APE — École de Ségoufielle · maternelle &amp; primaire</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

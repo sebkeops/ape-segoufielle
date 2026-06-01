@@ -1,0 +1,5 @@
+node_modules/
+.claude/
+
+# Aperçus PNG régénérables (le PDF final, lui, est versionné)
+dist/*-apercu.png
