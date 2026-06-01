@@ -19,18 +19,17 @@
   }
 
   :root {
-    --bleed: 3mm;
-    --safe: 10mm;
-    --pad: 13mm;            /* bleed + marge de sécurité */
+    --pad: 13mm;            /* bleed (3) + marge de sécurité (10) */
 
     /* Palette chaleureuse école / famille — colorée mais soignée */
     --cream:   #FFF7EE;
-    --coral:   #F4623A;     /* corail chaud, énergie positive */
+    --coral:   #F4623A;
     --coral-d: #E0492A;
-    --teal:    #1F9E96;     /* turquoise fédérateur */
+    --teal:    #1F9E96;
     --teal-d:  #157C75;
-    --yellow:  #FFC24B;     /* jaune lumineux */
-    --navy:    #243B55;     /* bleu profond, texte */
+    --teal-l:  #7FD0C9;
+    --yellow:  #FFC24B;
+    --navy:    #243B55;
     --navy-soft:#3C5066;
     --white:   #FFFFFF;
   }
@@ -55,45 +54,57 @@
     overflow: hidden;
   }
 
-  /* ===== Décor de fond (s'étend jusqu'au bord = bleed) ===== */
+  /* ===== Photos d'ambiance (Unsplash) — fichiers LOCAUX, aucun appel réseau =====
+     Overlay coloré multiplié pour rester dans la palette et garder le texte lisible. */
+  .photo {
+    position: absolute;
+    left: 0;
+    width: 303mm;
+    z-index: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+  .photo::after { content: ''; position: absolute; inset: 0; }
+
+  /* Bandeau haut : photo + voile turquoise, vague douce en bas. */
+  .photo-top {
+    top: 0;
+    height: 156mm;
+    background-image: url('../assets/school-fair-festival.jpg');
+    border-radius: 0 0 50% 50% / 0 0 16% 16%;
+  }
+  .photo-top::after {
+    background: linear-gradient(158deg, rgba(31,158,150,0.78) 0%, rgba(21,124,117,0.92) 100%);
+  }
+
+  /* Bandeau bas : photo + voile corail, vague douce en haut (comble le tiers inférieur). */
+  .photo-bottom {
+    bottom: 0;
+    height: 138mm;
+    background-image: url('../assets/community-celebration-outdoor.jpg');
+    border-radius: 50% 50% 0 0 / 16% 16% 0 0;
+  }
+  .photo-bottom::after {
+    background: linear-gradient(168deg, rgba(244,98,58,0.80) 0%, rgba(224,73,42,0.93) 100%);
+  }
+
+  /* Petits aplats décoratifs derrière la zone centrale crème */
   .blob {
     position: absolute;
     border-radius: 50%;
     z-index: 0;
   }
-  /* Bandeau turquoise pleine largeur (couvre bord à bord = bleed),
-     vague douce en bas. Tout l'en-tête repose sur du turquoise plein. */
-  .blob-top {
-    top: 0; left: 0;
-    width: 303mm; height: 150mm;
-    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-d) 100%);
-    border-radius: 0 0 50% 50% / 0 0 14% 14%;
-  }
-  .blob-yellow {
-    top: 158mm; right: -55mm;
-    width: 110mm; height: 110mm;
-    background: var(--yellow);
-    opacity: 0.5;
-  }
-  .blob-coral {
-    bottom: -55mm; left: -40mm;
-    width: 130mm; height: 130mm;
-    background: var(--coral);
-    opacity: 0.12;
-  }
-  .arc-bottom {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 303mm; height: 80mm;
-    background: linear-gradient(120deg, var(--coral) 0%, var(--coral-d) 100%);
-    border-radius: 90% 90% 0 0 / 60% 60% 0 0;
-    z-index: 0;
-  }
+  .blob-yellow { top: 196mm; right: -48mm; width: 96mm; height: 96mm; background: var(--yellow); opacity: 0.42; }
+  .blob-teal   { top: 210mm; left: -46mm;  width: 86mm; height: 86mm; background: var(--teal-l); opacity: 0.38; }
+
+  /* Couche confettis (au-dessus des photos, sous le contenu) */
+  .confetti { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 
   /* ===== Contenu, contraint à la zone sûre ===== */
   .content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     height: 100%;
     padding: var(--pad);
@@ -101,12 +112,11 @@
     flex-direction: column;
   }
 
-  /* --- En-tête sur le bandeau turquoise --- */
-  .header {
-    text-align: center;
-    color: var(--white);
-    padding-top: 6mm;
-  }
+  /* --- Fanions (bunting) en haut de l'en-tête --- */
+  .bunting { width: 100%; height: 17mm; display: block; margin-bottom: 3mm; }
+
+  /* --- En-tête sur le bandeau photo turquoise --- */
+  .header { text-align: center; color: var(--white); }
   .eyebrow {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -114,72 +124,97 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--yellow);
-    margin-bottom: 6mm;
+    margin-bottom: 5mm;
   }
   .title {
     font-family: 'Fredoka', sans-serif;
     font-weight: 700;
-    font-size: 70pt;
+    font-size: 71pt;
     line-height: 1.02;
     color: var(--white);
-    text-shadow: 0 2mm 4mm rgba(0,0,0,0.12);
+    text-shadow: 0 2mm 5mm rgba(0,0,0,0.22);
   }
   .title .accent { color: var(--yellow); }
-
   .hook {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-style: italic;
     font-size: 27pt;
     color: var(--white);
-    margin-top: 8mm;
+    margin-top: 7mm;
+    text-shadow: 0 1mm 3mm rgba(0,0,0,0.25);
   }
 
   /* --- Carte centrale (paragraphe) --- */
   .intro-card {
-    margin-top: 16mm;
+    margin-top: 13mm;
     background: var(--white);
-    border-radius: 10mm;
-    padding: 13mm 14mm;
-    box-shadow: 0 4mm 14mm rgba(36,59,85,0.10);
+    border-radius: 9mm;
+    padding: 11mm 13mm;
+    box-shadow: 0 4mm 16mm rgba(36,59,85,0.14);
   }
   .intro-card p {
-    font-size: 19pt;
-    line-height: 1.5;
+    font-size: 18.5pt;
+    line-height: 1.48;
     color: var(--navy-soft);
     text-align: center;
   }
 
-  /* --- Bloc QR --- */
+  /* --- Bloc QR (mis en valeur, QR ~74 mm) --- */
   .qr-block {
-    margin-top: 12mm;
+    position: relative;
+    margin-top: 11mm;
     display: flex;
     align-items: center;
     gap: 11mm;
     background: var(--white);
-    border: 1.2mm solid var(--teal);
-    border-radius: 10mm;
+    border: 1.6mm solid var(--teal);
+    border-radius: 11mm;
     padding: 11mm 12mm;
-    box-shadow: 0 4mm 14mm rgba(36,59,85,0.10);
+    box-shadow: 0 5mm 18mm rgba(36,59,85,0.16);
   }
-  .qr-img {
-    width: 55mm;
-    height: 55mm;
-    flex: 0 0 55mm;
-    border-radius: 4mm;
+  /* Cadre QR avec liseré pointillé pour attirer l'œil */
+  .qr-frame {
+    flex: 0 0 84mm;
+    width: 84mm;
+    padding: 5mm;
+    background: var(--white);
+    border: 1mm dashed var(--teal-l);
+    border-radius: 6mm;
+    position: relative;
   }
+  .qr-img { width: 74mm; height: 74mm; display: block; }
+  /* Pastille jaune "5 min" sur le QR */
+  .qr-badge {
+    position: absolute;
+    top: -7mm; left: -7mm;
+    width: 26mm; height: 26mm;
+    background: var(--yellow);
+    color: var(--navy);
+    border-radius: 50%;
+    border: 1.2mm solid var(--white);
+    box-shadow: 0 2mm 5mm rgba(36,59,85,0.25);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Fredoka', sans-serif; font-weight: 700; line-height: 0.95;
+    transform: rotate(-12deg);
+  }
+  .qr-badge b { font-size: 20pt; }
+  .qr-badge span { font-size: 9.5pt; font-family: 'Poppins'; font-weight: 600; }
+
   .qr-text { flex: 1; }
   .qr-text .scan {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 24pt;
+    font-size: 25pt;
     color: var(--teal-d);
-    line-height: 1.15;
+    line-height: 1.12;
   }
+  .qr-text .scan .arrow { color: var(--coral); }
   .qr-text .scan small {
     display: block;
     font-weight: 500;
-    font-size: 15pt;
+    font-size: 14.5pt;
     color: var(--navy-soft);
     margin-top: 2mm;
   }
@@ -189,9 +224,9 @@
     background: #FFF3D6;
     border: 0.6mm dashed var(--coral-d);
     border-radius: 3mm;
-    padding: 4mm 5mm;
+    padding: 3.5mm 5mm;
     font-family: 'Poppins', sans-serif;
-    font-size: 11.5pt;
+    font-size: 11pt;
     font-weight: 500;
     color: var(--coral-d);
     line-height: 1.3;
@@ -199,77 +234,120 @@
   .placeholder-note b { font-weight: 700; }
 
   /* --- Encadré dates --- */
-  .dates {
-    margin-top: 11mm;
-    display: flex;
-    gap: 8mm;
-  }
+  .dates { margin-top: 10mm; display: flex; gap: 8mm; }
   .date-box {
     flex: 1;
     background: var(--navy);
     color: var(--white);
-    border-radius: 8mm;
-    padding: 9mm 8mm;
+    border-radius: 7mm;
+    padding: 8mm 7mm;
     text-align: center;
+    box-shadow: 0 4mm 12mm rgba(36,59,85,0.20);
   }
   .date-box .label {
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 14pt;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-weight: 600; font-size: 13.5pt;
+    letter-spacing: 1px; text-transform: uppercase;
     color: var(--yellow);
   }
   .date-box .value {
     font-family: 'Fredoka', sans-serif;
-    font-weight: 600;
-    font-size: 23pt;
-    margin-top: 3mm;
+    font-weight: 600; font-size: 22pt; margin-top: 3mm;
   }
   .date-box .value .ph {
     display: inline-block;
     background: rgba(255,255,255,0.16);
     border: 0.5mm dashed var(--yellow);
-    border-radius: 2mm;
-    padding: 0 3mm;
+    border-radius: 2mm; padding: 0 3mm;
     color: var(--yellow);
   }
 
-  /* --- Bas de page : message clé + pied --- */
+  /* --- Bas de page : message clé + pied, sur la photo corail --- */
   .footer-zone {
     margin-top: auto;
     text-align: center;
     color: var(--white);
-    position: relative;
-    z-index: 2;
-    padding-bottom: 4mm;
+    padding-bottom: 6mm;
+  }
+  .key-pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.16);
+    border: 0.8mm solid rgba(255,255,255,0.45);
+    border-radius: 30mm;
+    padding: 6mm 14mm;
   }
   .key-message {
     font-family: 'Fredoka', sans-serif;
-    font-weight: 600;
-    font-size: 30pt;
+    font-weight: 600; font-size: 31pt;
     color: var(--white);
   }
   .key-message .heart { color: var(--yellow); }
   .footer {
     font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 14pt;
-    color: rgba(255,255,255,0.92);
-    margin-top: 5mm;
+    font-weight: 500; font-size: 14pt;
+    color: rgba(255,255,255,0.95);
+    margin-top: 6mm;
   }
 </style>
 </head>
 <body>
   <div class="page">
-    <!-- Décor -->
-    <div class="blob blob-top"></div>
+    <!-- Photos d'ambiance (locales) + voiles colorés -->
+    <div class="photo photo-top"></div>
+    <div class="photo photo-bottom"></div>
     <div class="blob blob-yellow"></div>
-    <div class="blob blob-coral"></div>
-    <div class="arc-bottom"></div>
+    <div class="blob blob-teal"></div>
+
+    <!-- Confettis décoratifs (SVG inline) -->
+    <svg class="confetti" viewBox="0 0 303 426" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <circle cx="26" cy="30" r="2.4" fill="#FFC24B"/>
+        <rect x="250" y="26" width="5" height="5" rx="1" fill="#FFFFFF" transform="rotate(24 252 28)"/>
+        <circle cx="60" cy="62" r="2" fill="#FFFFFF"/>
+        <rect x="210" y="70" width="5" height="5" rx="1" fill="#FFC24B" transform="rotate(-18 212 72)"/>
+        <circle cx="40" cy="110" r="2.6" fill="#7FD0C9"/>
+        <circle cx="276" cy="120" r="2.2" fill="#FFFFFF"/>
+        <rect x="150" y="20" width="5" height="5" rx="1" fill="#7FD0C9" transform="rotate(30 152 22)"/>
+        <circle cx="120" cy="150" r="2" fill="#FFC24B"/>
+        <rect x="22" y="168" width="5.5" height="5.5" rx="1" fill="#FF8A6A" transform="rotate(20 24 170)"/>
+        <circle cx="284" cy="172" r="2.6" fill="#1F9E96"/>
+        <rect x="270" y="206" width="5" height="5" rx="1" fill="#FFC24B" transform="rotate(-24 272 208)"/>
+        <circle cx="18" cy="232" r="2.4" fill="#F4623A"/>
+        <circle cx="292" cy="250" r="2.2" fill="#FFC24B"/>
+        <rect x="16" y="280" width="5.5" height="5.5" rx="1" fill="#7FD0C9" transform="rotate(28 18 282)"/>
+        <circle cx="44" cy="312" r="2.4" fill="#FFFFFF"/>
+        <rect x="262" y="300" width="6" height="6" rx="1" fill="#FFFFFF" transform="rotate(-16 264 302)"/>
+        <circle cx="285" cy="336" r="2.6" fill="#FFC24B"/>
+        <circle cx="30" cy="356" r="2.2" fill="#FFE3A8"/>
+        <rect x="250" y="372" width="5.5" height="5.5" rx="1" fill="#FFE3A8" transform="rotate(22 252 374)"/>
+        <circle cx="64" cy="392" r="2.4" fill="#FFFFFF"/>
+        <circle cx="240" cy="404" r="2" fill="#FFC24B"/>
+      </g>
+    </svg>
 
     <div class="content">
       <header class="header">
+        <!-- Guirlande de fanions -->
+        <svg class="bunting" viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,14 H1200" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/>
+          <polygon points="10,14 70,14 40,70"        fill="#FFC24B"/>
+          <polygon points="85,14 145,14 115,70"      fill="#F4623A"/>
+          <polygon points="160,14 220,14 190,70"     fill="#FFFFFF"/>
+          <polygon points="235,14 295,14 265,70"     fill="#7FD0C9"/>
+          <polygon points="310,14 370,14 340,70"     fill="#FFC24B"/>
+          <polygon points="385,14 445,14 415,70"     fill="#F4623A"/>
+          <polygon points="460,14 520,14 490,70"     fill="#FFFFFF"/>
+          <polygon points="535,14 595,14 565,70"     fill="#7FD0C9"/>
+          <polygon points="610,14 670,14 640,70"     fill="#FFC24B"/>
+          <polygon points="685,14 745,14 715,70"     fill="#F4623A"/>
+          <polygon points="760,14 820,14 790,70"     fill="#FFFFFF"/>
+          <polygon points="835,14 895,14 865,70"     fill="#7FD0C9"/>
+          <polygon points="910,14 970,14 940,70"     fill="#FFC24B"/>
+          <polygon points="985,14 1045,14 1015,70"   fill="#F4623A"/>
+          <polygon points="1060,14 1120,14 1090,70"  fill="#FFFFFF"/>
+          <polygon points="1135,14 1195,14 1165,70"  fill="#7FD0C9"/>
+        </svg>
+
         <div class="eyebrow">APE · École de Ségoufielle</div>
         <h1 class="title">Réinventons ensemble<br>l'APE <span class="accent">2026-2027</span></h1>
         <p class="hook">Et si vous décidiez de l'année prochaine ?</p>
@@ -283,10 +361,13 @@
       </div>
 
       <div class="qr-block">
-        <img class="qr-img" src="qr-code.png" alt="QR code questionnaire">
+        <div class="qr-frame">
+          <div class="qr-badge"><b>5</b><span>min</span></div>
+          <img class="qr-img" src="qr-code.png" alt="QR code questionnaire">
+        </div>
         <div class="qr-text">
-          <div class="scan">Scannez pour répondre<br>au questionnaire
-            <small>5 minutes suffisent</small>
+          <div class="scan"><span class="arrow">➜</span> Scannez pour répondre au questionnaire
+            <small>5 minutes suffisent, depuis votre téléphone</small>
           </div>
           <div class="placeholder-note">
             ⚠️ <b>QR code provisoire</b> — à régénérer avec l'URL définitive du
@@ -307,7 +388,9 @@
       </div>
 
       <div class="footer-zone">
-        <div class="key-message">Chacun peut contribuer à son échelle <span class="heart">♥</span></div>
+        <div class="key-pill">
+          <div class="key-message">Chacun peut contribuer à son échelle <span class="heart">♥</span></div>
+        </div>
         <div class="footer">APE — École de Ségoufielle · maternelle &amp; primaire</div>
       </div>
     </div>

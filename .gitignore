@@ -1,5 +1,8 @@
 node_modules/
 .claude/
 
+# Secrets — NE JAMAIS committer (repo public)
+.env
+
 # Aperçus PNG régénérables (le PDF final, lui, est versionné)
 dist/*-apercu.png

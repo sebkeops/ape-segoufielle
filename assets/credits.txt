@@ -1,0 +1,3 @@
+Images PLACEHOLDER provisoires (gradients).
+Exécuter `python scripts/fetch_images.py` (avec une clé Unsplash dans .env)
+pour télécharger les vraies photos et renseigner les crédits Unsplash ici.
