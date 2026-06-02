@@ -1,3 +1,28 @@
-Images PLACEHOLDER provisoires (gradients).
-Exécuter `python scripts/fetch_images.py` (avec une clé Unsplash dans .env)
-pour télécharger les vraies photos et renseigner les crédits Unsplash ici.
+Crédits photos — Unsplash (https://unsplash.com)
+Attribution obligatoire selon les conditions Unsplash.
+============================================================
+
+children-craft-hands.jpg
+  Photo de Phil Hearing sur Unsplash
+  Profil : https://unsplash.com/@philhearing?utm_source=ape-segoufielle&utm_medium=referral
+  Photo  : https://unsplash.com/photos/person-with-blue-paint-on-hand-cylPETXS7is?utm_source=ape-segoufielle&utm_medium=referral
+
+colorful-balloons-party.jpg
+  Photo de Adi Goldstein sur Unsplash
+  Profil : https://unsplash.com/@adigold1?utm_source=ape-segoufielle&utm_medium=referral
+  Photo  : https://unsplash.com/photos/selective-focus-photography-of-assorted-color-balloons-Hli3R6LKibo?utm_source=ape-segoufielle&utm_medium=referral
+
+school-fair-festival.jpg
+  Photo de Sushanta Rokka sur Unsplash
+  Profil : https://unsplash.com/@sanoyatra?utm_source=ape-segoufielle&utm_medium=referral
+  Photo  : https://unsplash.com/photos/children-look-at-a-model-house-and-educational-display-zetbexM4zt8?utm_source=ape-segoufielle&utm_medium=referral
+
+kids-painting-art-supplies.jpg
+  Photo de Dragos Gontariu sur Unsplash
+  Profil : https://unsplash.com/@dragos126?utm_source=ape-segoufielle&utm_medium=referral
+  Photo  : https://unsplash.com/photos/flat-lay-photography-of-paintings-54VAb3f1z6w?utm_source=ape-segoufielle&utm_medium=referral
+
+community-celebration-outdoor.jpg
+  Photo de Samantha Gades sur Unsplash
+  Profil : https://unsplash.com/@srosinger3997?utm_source=ape-segoufielle&utm_medium=referral
+  Photo  : https://unsplash.com/photos/laughing-people-in-party-fIHozNWfcvs?utm_source=ape-segoufielle&utm_medium=referral

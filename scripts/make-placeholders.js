@@ -12,9 +12,10 @@ const path = require('path');
 const ASSETS = path.join(__dirname, '..', 'assets');
 
 // Mêmes slugs que fetch_images.py ; on ne pré-génère que ceux utilisés par l'affiche.
+// Slugs réellement utilisés par l'affiche (bandeaux haut/bas).
 const PLACEHOLDERS = [
-  { slug: 'school-fair-festival', c1: '#1F9E96', c2: '#157C75', label: 'Fête / kermesse' },
-  { slug: 'community-celebration-outdoor', c1: '#F4623A', c2: '#E0492A', label: 'Célébration en plein air' },
+  { slug: 'colorful-balloons-party', c1: '#1F9E96', c2: '#157C75', label: 'Ballons colorés' },
+  { slug: 'children-craft-hands', c1: '#F4623A', c2: '#E0492A', label: 'Mains / créativité' },
 ];
 
 function html({ c1, c2, label, slug }) {
