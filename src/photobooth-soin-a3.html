@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Affiche A3 — Photobooth : consignes — APE École de Ségoufielle</title>
+
+<!-- Mêmes polices que les autres supports APE (Fredoka / Poppins / Inter). -->
+<link href="fonts.css" rel="stylesheet">
+
+<style>
+  @page { size: 303mm 426mm; margin: 0; }
+
+  :root {
+    --pad: 13mm;
+    --cream:   #FFF7EE;
+    --coral:   #F4623A;
+    --coral-d: #E0492A;
+    --teal:    #1F9E96;
+    --teal-d:  #157C75;
+    --teal-l:  #7FD0C9;
+    --yellow:  #FFC24B;
+    --navy:    #243B55;
+    --navy-soft:#3C5066;
+    --white:   #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: 'Inter', sans-serif; color: var(--navy); }
+
+  .page {
+    position: relative;
+    width: 303mm; height: 426mm;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  .band { position: absolute; left: 0; width: 303mm; z-index: 0; }
+  .band-top {
+    top: 0; height: 138mm;
+    background:
+      radial-gradient(circle at 16% 20%, rgba(127,208,201,0.55) 0%, rgba(127,208,201,0) 40%),
+      radial-gradient(circle at 88% 26%, rgba(255,194,75,0.26) 0%, rgba(255,194,75,0) 42%),
+      linear-gradient(158deg, #23A9A0 0%, var(--teal) 46%, var(--teal-d) 100%);
+    border-radius: 0 0 50% 50% / 0 0 14% 14%;
+  }
+  .band-bottom {
+    bottom: 0; height: 60mm;
+    background: linear-gradient(168deg, var(--coral) 0%, var(--coral-d) 100%);
+    border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+  }
+  .blob { position: absolute; border-radius: 50%; z-index: 0; }
+  .blob-yellow { top: 196mm; right: -50mm; width: 100mm; height: 100mm; background: var(--yellow); opacity: 0.32; }
+  .blob-teal   { top: 280mm; left: -48mm;  width: 92mm;  height: 92mm;  background: var(--teal-l); opacity: 0.30; }
+
+  .content {
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    padding: var(--pad);
+    display: flex; flex-direction: column;
+  }
+
+  .header { text-align: center; color: var(--white); padding-top: 11mm; }
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 15pt; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--navy); background: var(--yellow);
+    padding: 2.5mm 7mm; border-radius: 30mm; margin-bottom: 7mm;
+  }
+  .title {
+    font-family: 'Fredoka', sans-serif; font-weight: 700;
+    font-size: 62pt; line-height: 1.0; color: var(--white);
+    text-shadow: 0 1mm 4mm rgba(0,0,0,0.30);
+  }
+  .subtitle {
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-style: italic;
+    font-size: 23pt; color: var(--white); margin-top: 5mm;
+    text-shadow: 0 1mm 3mm rgba(0,0,0,0.22);
+  }
+
+  /* Photo dans une carte blanche */
+  .photo-card {
+    margin: 13mm auto 0;
+    width: 150mm;
+    background: var(--white);
+    border-radius: 9mm;
+    padding: 7mm;
+    box-shadow: 0 5mm 18mm rgba(36,59,85,0.16);
+  }
+  .photo-card img {
+    display: block; width: 100%; border-radius: 5mm;
+  }
+
+  /* Bloc consignes */
+  .care {
+    margin-top: 11mm;
+    background: var(--white);
+    border-radius: 9mm;
+    padding: 10mm 13mm;
+    box-shadow: 0 4mm 16mm rgba(36,59,85,0.12);
+    text-align: center;
+  }
+  .care p {
+    font-size: 20pt; line-height: 1.46; color: var(--navy-soft);
+  }
+  .care p .strong { color: var(--teal-d); font-weight: 700; }
+
+  /* Règle mise en avant : 2 photos max */
+  .rule {
+    margin-top: 11mm;
+    display: flex; align-items: center; justify-content: center; gap: 7mm;
+    background: var(--yellow);
+    border-radius: 11mm;
+    padding: 9mm 12mm;
+    box-shadow: 0 5mm 16mm rgba(242,166,14,0.32);
+  }
+  .rule .ico { font-size: 46pt; line-height: 1; }
+  .rule .txt {
+    font-family: 'Fredoka', sans-serif; font-weight: 700;
+    font-size: 34pt; line-height: 1.05; color: var(--navy);
+  }
+  .rule .txt small {
+    display: block;
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 16pt; color: var(--navy-soft); margin-top: 2mm;
+  }
+
+  .footer-zone {
+    margin-top: auto; text-align: center; color: var(--white);
+    padding-bottom: 9mm;
+  }
+  .key-message {
+    font-family: 'Fredoka', sans-serif; font-weight: 600;
+    font-size: 25pt; color: var(--white);
+  }
+  .key-message .heart { color: var(--yellow); }
+  .footer {
+    font-family: 'Poppins', sans-serif; font-weight: 500;
+    font-size: 14pt; color: rgba(255,255,255,0.95); margin-top: 5mm;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="band band-top"></div>
+    <div class="band band-bottom"></div>
+    <div class="blob blob-yellow"></div>
+    <div class="blob blob-teal"></div>
+
+    <div class="content">
+      <header class="header">
+        <div class="eyebrow">Photobooth · Kermesse APE</div>
+        <h1 class="title">Prenez-en soin&nbsp;!</h1>
+        <p class="subtitle">Ce matériel nous est prêté</p>
+      </header>
+
+      <div class="photo-card">
+        <img src="../assets/photobooth.webp" alt="Photobooth">
+      </div>
+
+      <div class="care">
+        <p>Merci de <span class="strong">manipuler le photobooth avec délicatesse</span>.
+        Les enfants l'utilisent <span class="strong">accompagnés d'un adulte</span>.
+        Prenons-en soin pour que la fête reste belle&nbsp;!</p>
+      </div>
+
+      <div class="rule">
+        <span class="ico">📸</span>
+        <div class="txt">2 photos maximum<br>par personne
+          <small>pour que tout le monde puisse en profiter</small>
+        </div>
+      </div>
+
+      <div class="footer-zone">
+        <div class="key-message">Merci de votre aide <span class="heart">♥</span></div>
+        <div class="footer">APE — École de Ségoufielle</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
