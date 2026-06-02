@@ -218,20 +218,20 @@
     color: var(--navy-soft);
     margin-top: 2mm;
   }
-  /* Encadré "à remplacer" — clairement identifié tant que l'URL est inconnue */
-  .placeholder-note {
+  /* Mention du lien direct (alternative au scan) */
+  .url-note {
     margin-top: 5mm;
-    background: #FFF3D6;
-    border: 0.6mm dashed var(--coral-d);
+    background: #EAF7F5;
+    border: 0.5mm solid var(--teal-l);
     border-radius: 3mm;
     padding: 3.5mm 5mm;
     font-family: 'Poppins', sans-serif;
-    font-size: 11pt;
+    font-size: 11.5pt;
     font-weight: 500;
-    color: var(--coral-d);
+    color: var(--teal-d);
     line-height: 1.3;
   }
-  .placeholder-note b { font-weight: 700; }
+  .url-note b { font-weight: 700; color: var(--navy); }
 
   /* --- Encadré dates --- */
   .dates { margin-top: 10mm; display: flex; gap: 8mm; }
@@ -369,9 +369,9 @@
           <div class="scan"><span class="arrow">➜</span> Scannez pour répondre au questionnaire
             <small>5 minutes suffisent, depuis votre téléphone</small>
           </div>
-          <div class="placeholder-note">
-            ⚠️ <b>QR code provisoire</b> — à régénérer avec l'URL définitive du
-            questionnaire&nbsp;: <b>[URL_FORMULAIRE]</b>
+          <div class="url-note">
+            Sans smartphone&nbsp;? Répondez en ligne sur
+            <b>forms.gle/M4CVMBK6Rys8w6raA</b>
           </div>
         </div>
       </div>
