@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Planche A4 — 2 flyers A5 à découper — APE École de Ségoufielle</title>
+
+<!-- Mêmes polices que les autres supports APE (Fredoka / Poppins / Inter),
+     inlinées en base64 dans fonts.css pour un embarquement PDF garanti. -->
+<link href="fonts.css" rel="stylesheet">
+
+<style>
+  /* ===== Planche d'imposition « 2 poses » sur A4 paysage =====
+     A5 (148 × 210 mm) est exactement la moitié d'un A4 (210 × 297 mm).
+     On place donc 2 flyers A5 portrait côte à côte sur un A4 PAYSAGE
+     (297 × 210 mm) → 148 + 148 = 296 mm de large, le tout centré.
+     Un trait de découpe pointillé au centre permet de séparer les 2 flyers
+     pile à la taille A5 réelle. Le fond perdu (bleed) de 3 mm de chaque flyer
+     est rogné par la cellule, donc plus besoin de marge : la découpe tombe
+     directement sur le format fini. */
+  @page {
+    size: 297mm 210mm;   /* A4 paysage, sans marge */
+    margin: 0;
+  }
+
+  :root {
+    --pad: 11mm;            /* bleed (3) + marge de sécurité (8) — identique au flyer */
+
+    /* Palette identique à l'affiche A3 / au flyer A5 */
+    --cream:   #FFF7EE;
+    --coral:   #F4623A;
+    --coral-d: #E0492A;
+    --teal:    #1F9E96;
+    --teal-d:  #157C75;
+    --teal-l:  #7FD0C9;
+    --yellow:  #FFC24B;
+    --navy:    #243B55;
+    --navy-soft:#3C5066;
+    --white:   #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body { font-family: 'Inter', sans-serif; color: var(--navy); }
+
+  /* ===== Feuille A4 paysage ===== */
+  .sheet {
+    position: relative;
+    width: 297mm;
+    height: 210mm;
+    background: var(--white);
+    display: flex;
+    justify-content: center;   /* centre les 296 mm de flyers dans les 297 mm */
+    overflow: hidden;
+  }
+
+  /* Cellule de découpe : fenêtre 148 × 210 mm qui rogne le bleed du flyer. */
+  .cut-cell {
+    position: relative;
+    width: 148mm;
+    height: 210mm;
+    overflow: hidden;
+  }
+
+  /* ===== Le flyer (repris à l'identique de flyer-a5.html) =====
+     La .page fait 154 × 216 mm (avec bleed). On la décale de -3 mm en haut
+     et à gauche pour que la cellule n'affiche que la zone finie 148 × 210 mm. */
+  .page {
+    position: absolute;
+    top: -3mm;
+    left: -3mm;
+    width: 154mm;
+    height: 216mm;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  /* ===== Bandeaux colorés (cohérents avec l'A3) ===== */
+  .band { position: absolute; left: 0; width: 154mm; z-index: 0; }
+  .band-top {
+    top: 0;
+    height: 80mm;
+    background:
+      radial-gradient(circle at 16% 20%, rgba(127,208,201,0.55) 0%, rgba(127,208,201,0) 40%),
+      radial-gradient(circle at 88% 26%, rgba(255,194,75,0.26) 0%, rgba(255,194,75,0) 42%),
+      linear-gradient(158deg, #23A9A0 0%, var(--teal) 46%, var(--teal-d) 100%);
+    border-radius: 0 0 50% 50% / 0 0 16% 16%;
+  }
+  .band-bottom {
+    bottom: 0;
+    height: 52mm;
+    background: linear-gradient(168deg, var(--coral) 0%, var(--coral-d) 100%);
+    border-radius: 50% 50% 0 0 / 16% 16% 0 0;
+  }
+
+  .blob { position: absolute; border-radius: 50%; z-index: 0; }
+  .blob-yellow { top: 96mm;  right: -24mm; width: 50mm; height: 50mm; background: var(--yellow); opacity: 0.40; }
+  .blob-teal   { top: 108mm; left: -22mm;  width: 44mm; height: 44mm; background: var(--teal-l); opacity: 0.36; }
+
+  /* ===== Contenu, contraint à la zone sûre ===== */
+  .content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header { text-align: center; color: var(--white); padding-top: 6mm; }
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--yellow);
+    padding: 1.5mm 5mm;
+    border-radius: 30mm;
+    margin-bottom: 5mm;
+  }
+  .title {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 27pt;
+    line-height: 1.06;
+    color: var(--white);
+    text-shadow: 0 0.6mm 2.5mm rgba(0,0,0,0.32);
+  }
+  .title .accent { color: var(--yellow); }
+  .hook {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 15pt;
+    color: var(--white);
+    margin-top: 4mm;
+    text-shadow: 0 0.6mm 2mm rgba(0,0,0,0.25);
+  }
+
+  .intro-card {
+    margin-top: 8mm;
+    background: var(--white);
+    border-radius: 5mm;
+    padding: 6mm 7mm;
+    box-shadow: 0 2mm 9mm rgba(36,59,85,0.14);
+  }
+  .intro-card p {
+    font-size: 11pt;
+    line-height: 1.46;
+    color: var(--navy-soft);
+    text-align: center;
+  }
+
+  .qr-block {
+    position: relative;
+    margin-top: 6mm;
+    display: flex;
+    align-items: center;
+    gap: 6mm;
+    background: var(--white);
+    border: 0.9mm solid var(--teal);
+    border-radius: 6mm;
+    padding: 6mm 7mm;
+    box-shadow: 0 3mm 10mm rgba(36,59,85,0.16);
+  }
+  .qr-frame {
+    flex: 0 0 46mm;
+    width: 46mm;
+    padding: 3mm;
+    background: var(--white);
+    border: 0.6mm dashed var(--teal-l);
+    border-radius: 3.5mm;
+  }
+  .qr-img { width: 40mm; height: 40mm; display: block; }
+
+  .qr-text { flex: 1; }
+  .qr-text .scan {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14pt;
+    color: var(--teal-d);
+    line-height: 1.14;
+  }
+  .qr-text .scan .arrow { color: var(--coral); }
+  .url-note {
+    margin-top: 3mm;
+    font-family: 'Poppins', sans-serif;
+    font-size: 8.5pt;
+    font-weight: 500;
+    color: var(--navy-soft);
+    line-height: 1.3;
+  }
+  .url-note b { font-weight: 700; color: var(--navy); }
+
+  .dates {
+    margin-top: 6mm;
+    display: flex;
+    gap: 4mm;
+    font-family: 'Poppins', sans-serif;
+  }
+  .date-box {
+    flex: 1;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 4mm;
+    padding: 3.5mm 3mm;
+    text-align: center;
+  }
+  .date-box .label {
+    font-weight: 600; font-size: 7.5pt;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--yellow);
+  }
+  .date-box .value {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600; font-size: 12.5pt; margin-top: 1mm;
+    color: var(--yellow);
+  }
+
+  .footer-zone {
+    margin-top: auto;
+    text-align: center;
+    color: var(--white);
+    padding-bottom: 3mm;
+  }
+  .key-message {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600; font-size: 14.5pt;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .key-message .heart { color: var(--yellow); }
+  .footer {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500; font-size: 8.5pt;
+    color: rgba(255,255,255,0.95);
+    margin-top: 2.5mm;
+  }
+
+  /* ===== Traits de découpe (par-dessus, retirés à la découpe) ===== */
+  .cut-line {
+    position: absolute;
+    top: 0;
+    height: 210mm;
+    border-left: 0.3mm dashed rgba(36,59,85,0.6);
+    z-index: 50;
+    pointer-events: none;
+  }
+  .cut-scissors {
+    position: absolute;
+    top: 1mm;
+    transform: translateX(-50%);
+    font-size: 11pt;
+    color: rgba(36,59,85,0.7);
+    z-index: 51;
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <!-- ===== Flyer 1 (gauche) ===== -->
+    <div class="cut-cell">
+      <div class="page">
+        <div class="band band-top"></div>
+        <div class="band band-bottom"></div>
+        <div class="blob blob-yellow"></div>
+        <div class="blob blob-teal"></div>
+        <div class="content">
+          <header class="header">
+            <div class="eyebrow">APE · École de Ségoufielle</div>
+            <h1 class="title">Et si on imaginait ensemble<br>l'APE <span class="accent">2026-2027</span> ?</h1>
+            <p class="hook">Votre avis compte.</p>
+          </header>
+          <div class="intro-card">
+            <p>Beaucoup de parents ont envie d'aider — chacun à son niveau.
+            Aidez-nous à imaginer une APE plus participative et plus durable.
+            Quelques minutes suffisent.</p>
+          </div>
+          <div class="qr-block">
+            <div class="qr-frame">
+              <img class="qr-img" src="qr-code.png" alt="QR code questionnaire">
+            </div>
+            <div class="qr-text">
+              <div class="scan"><span class="arrow">➜</span> Scannez et donnez votre avis</div>
+              <div class="url-note">
+                Sans smartphone&nbsp;? <b>forms.gle/21EpDLGNNmbKx8HZ9</b>
+              </div>
+            </div>
+          </div>
+          <div class="dates">
+            <div class="date-box">
+              <div class="label">Réponses avant le</div>
+              <div class="value">dimanche 14 juin</div>
+            </div>
+            <div class="date-box">
+              <div class="label">Réunion parents le</div>
+              <div class="value">vendredi 19 juin</div>
+            </div>
+          </div>
+          <div class="footer-zone">
+            <div class="key-message">Construisons ensemble<br>l'année prochaine <span class="heart">♥</span></div>
+            <div class="footer">APE — École de Ségoufielle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Flyer 2 (droite) — identique ===== -->
+    <div class="cut-cell">
+      <div class="page">
+        <div class="band band-top"></div>
+        <div class="band band-bottom"></div>
+        <div class="blob blob-yellow"></div>
+        <div class="blob blob-teal"></div>
+        <div class="content">
+          <header class="header">
+            <div class="eyebrow">APE · École de Ségoufielle</div>
+            <h1 class="title">Et si on imaginait ensemble<br>l'APE <span class="accent">2026-2027</span> ?</h1>
+            <p class="hook">Votre avis compte.</p>
+          </header>
+          <div class="intro-card">
+            <p>Beaucoup de parents ont envie d'aider — chacun à son niveau.
+            Aidez-nous à imaginer une APE plus participative et plus durable.
+            Quelques minutes suffisent.</p>
+          </div>
+          <div class="qr-block">
+            <div class="qr-frame">
+              <img class="qr-img" src="qr-code.png" alt="QR code questionnaire">
+            </div>
+            <div class="qr-text">
+              <div class="scan"><span class="arrow">➜</span> Scannez et donnez votre avis</div>
+              <div class="url-note">
+                Sans smartphone&nbsp;? <b>forms.gle/21EpDLGNNmbKx8HZ9</b>
+              </div>
+            </div>
+          </div>
+          <div class="dates">
+            <div class="date-box">
+              <div class="label">Réponses avant le</div>
+              <div class="value">dimanche 14 juin</div>
+            </div>
+            <div class="date-box">
+              <div class="label">Réunion parents le</div>
+              <div class="value">vendredi 19 juin</div>
+            </div>
+          </div>
+          <div class="footer-zone">
+            <div class="key-message">Construisons ensemble<br>l'année prochaine <span class="heart">♥</span></div>
+            <div class="footer">APE — École de Ségoufielle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trait de découpe central (séparation des 2 flyers) -->
+    <div class="cut-line" style="left: 148.5mm;"></div>
+    <div class="cut-scissors" style="left: 148.5mm;">✂</div>
+  </div>
+</body>
+</html>
