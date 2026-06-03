@@ -114,6 +114,15 @@
     flex-direction: column;
   }
 
+  /* Bloc central (entre en-tête et pied), centré verticalement avec un
+     espacement régulier entre les cartes → marges homogènes. */
+  .main {
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11mm;
+  }
+
   /* --- En-tête sur le bandeau dégradé turquoise --- */
   .header { text-align: center; color: var(--white); padding-top: 14mm; }
   .eyebrow {
@@ -150,7 +159,6 @@
 
   /* --- Carte centrale (paragraphe) --- */
   .intro-card {
-    margin-top: 13mm;
     background: var(--white);
     border-radius: 9mm;
     padding: 11mm 13mm;
@@ -166,7 +174,6 @@
   /* --- Bloc QR (mis en valeur, QR ~74 mm) --- */
   .qr-block {
     position: relative;
-    margin-top: 11mm;
     display: flex;
     align-items: center;
     gap: 11mm;
@@ -237,7 +244,7 @@
   .url-note b { font-weight: 700; color: var(--navy); }
 
   /* --- Encadré dates --- */
-  .dates { margin-top: 10mm; display: flex; gap: 8mm; }
+  .dates { display: flex; gap: 8mm; }
   .date-box {
     flex: 1;
     background: var(--navy);
@@ -259,9 +266,9 @@
     color: var(--yellow);
   }
 
-  /* --- Bas de page : message clé + pied, sur la photo corail --- */
+  /* --- Bas de page : message clé + pied, sur la photo corail ---
+     Dernier élément du flux ; le « margin: auto 0 » de .main le cale en bas. */
   .footer-zone {
-    margin-top: auto;
     text-align: center;
     color: var(--white);
     padding-bottom: 6mm;
@@ -315,6 +322,7 @@
         <p class="hook">Votre avis compte.</p>
       </header>
 
+      <div class="main">
       <div class="intro-card">
         <p>L'APE de l'école prépare la nouvelle année et souhaite la construire
         avec vous. Vos idées, vos envies, vos disponibilités : tout compte.
@@ -348,6 +356,7 @@
           <div class="value">vendredi 19 juin</div>
         </div>
       </div>
+      </div><!-- /.main -->
 
       <div class="footer-zone">
         <div class="key-pill">
