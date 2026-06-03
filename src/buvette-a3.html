@@ -121,12 +121,14 @@
     text-shadow: 0 1mm 3mm rgba(0,0,0,0.22);
   }
 
-  /* --- Cartes menu --- */
-  .menu { margin-top: 14mm; display: flex; flex-direction: column; gap: 11mm; }
+  /* --- Cartes menu ---
+     margin: auto 0  → le bloc menu est centré verticalement dans la zone
+     crème (marges égales au-dessus et en dessous), pour un rythme homogène. */
+  .menu { margin: auto 0; display: flex; flex-direction: column; gap: 12mm; }
   .menu-card {
     background: var(--white);
     border-radius: 10mm;
-    padding: 9mm 12mm 11mm;
+    padding: 11mm 12mm;        /* symétrique haut/bas */
     box-shadow: 0 5mm 18mm rgba(36,59,85,0.14);
   }
   .menu-head {
@@ -180,12 +182,13 @@
     box-shadow: 0 1.5mm 4mm rgba(242,166,14,0.30);
   }
 
-  /* --- Bas de page sur le bandeau turquoise --- */
+  /* --- Bas de page sur le bandeau turquoise ---
+     Dernier élément du flux : le « margin: auto 0 » du menu le pousse au bas
+     du bandeau turquoise tout en laissant des marges égales autour du menu. */
   .footer-zone {
-    margin-top: auto;
     text-align: center;
     color: var(--white);
-    padding-bottom: 8mm;
+    padding-bottom: 4mm;
   }
   .key-pill {
     display: inline-block;
