@@ -92,10 +92,11 @@
     padding: var(--pad);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;   /* répartit l'espace libre uniformément */
   }
 
   /* --- En-tête sur le bandeau dégradé turquoise --- */
-  .header { text-align: center; color: var(--white); padding-top: 6mm; }
+  .header { text-align: center; color: var(--white); padding-top: 5mm; }
   .eyebrow {
     display: inline-block;
     font-family: 'Poppins', sans-serif;
@@ -130,10 +131,9 @@
 
   /* --- Carte centrale (texte court) --- */
   .intro-card {
-    margin-top: 8mm;
     background: var(--white);
     border-radius: 5mm;
-    padding: 6mm 7mm;
+    padding: 5.5mm 7mm;
     box-shadow: 0 2mm 9mm rgba(36,59,85,0.14);
   }
   .intro-card p {
@@ -146,25 +146,24 @@
   /* --- Bloc QR (compact, QR ~40 mm) --- */
   .qr-block {
     position: relative;
-    margin-top: 6mm;
     display: flex;
     align-items: center;
     gap: 6mm;
     background: var(--white);
     border: 0.9mm solid var(--teal);
     border-radius: 6mm;
-    padding: 6mm 7mm;
+    padding: 5mm 6mm;
     box-shadow: 0 3mm 10mm rgba(36,59,85,0.16);
   }
   .qr-frame {
-    flex: 0 0 46mm;
-    width: 46mm;
-    padding: 3mm;
+    flex: 0 0 42mm;
+    width: 42mm;
+    padding: 2.5mm;
     background: var(--white);
     border: 0.6mm dashed var(--teal-l);
     border-radius: 3.5mm;
   }
-  .qr-img { width: 40mm; height: 40mm; display: block; }
+  .qr-img { width: 36mm; height: 36mm; display: block; }
 
   .qr-text { flex: 1; }
   .qr-text .scan {
@@ -187,7 +186,6 @@
 
   /* --- Ligne dates (sobre, sur le crème) --- */
   .dates {
-    margin-top: 6mm;
     display: flex;
     gap: 4mm;
     font-family: 'Poppins', sans-serif;
@@ -218,7 +216,6 @@
 
   /* --- Bas de page : message clé + pied, sur le bandeau corail --- */
   .footer-zone {
-    margin-top: auto;
     text-align: center;
     color: var(--white);
     padding-bottom: 3mm;
