@@ -199,6 +199,7 @@
     border-radius: 4mm;
     padding: 3.5mm 3mm;
     text-align: center;
+    display: flex; flex-direction: column; justify-content: center;
   }
   .date-box .label {
     font-weight: 600; font-size: 7.5pt;
@@ -209,6 +210,10 @@
     font-family: 'Fredoka', sans-serif;
     font-weight: 600; font-size: 12.5pt; margin-top: 1mm;
     color: var(--yellow);
+  }
+  .date-box .value-note {
+    font-weight: 600; font-size: 8pt; margin-top: 0.8mm;
+    color: var(--white);
   }
 
   /* --- Bas de page : message clé + pied, sur le bandeau corail --- */
@@ -269,11 +274,12 @@
       <div class="dates">
         <div class="date-box">
           <div class="label">Réponses avant le</div>
-          <div class="value">dimanche 14 juin</div>
+          <div class="value">vendredi 12 juin</div>
         </div>
         <div class="date-box">
           <div class="label">Réunion parents le</div>
-          <div class="value">vendredi 19 juin</div>
+          <div class="value">lundi 15 juin</div>
+          <div class="value-note">19h · à la mairie</div>
         </div>
       </div>
 

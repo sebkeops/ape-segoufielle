@@ -253,6 +253,7 @@
     padding: 8mm 7mm;
     text-align: center;
     box-shadow: 0 4mm 12mm rgba(36,59,85,0.20);
+    display: flex; flex-direction: column; justify-content: center;
   }
   .date-box .label {
     font-family: 'Poppins', sans-serif;
@@ -264,6 +265,11 @@
     font-family: 'Fredoka', sans-serif;
     font-weight: 600; font-size: 23pt; margin-top: 3mm;
     color: var(--yellow);
+  }
+  .date-box .value-note {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600; font-size: 13.5pt; margin-top: 2mm;
+    color: var(--white);
   }
 
   /* --- Bas de page : message clé + pied, sur la photo corail ---
@@ -349,11 +355,12 @@
       <div class="dates">
         <div class="date-box">
           <div class="label">Réponses avant le</div>
-          <div class="value">dimanche 14 juin</div>
+          <div class="value">vendredi 12 juin</div>
         </div>
         <div class="date-box">
           <div class="label">Réunion parents le</div>
-          <div class="value">vendredi 19 juin</div>
+          <div class="value">lundi 15 juin</div>
+          <div class="value-note">19h · à la mairie</div>
         </div>
       </div>
       </div><!-- /.main -->
